@@ -109,6 +109,34 @@ void kpage_init() {
 	write_cr0(read_cr0() | 0x80000001);
 }
 
+void kpage_free(uint32_t page) {
+	page_t* pde;
+	page_t* pte;
+	uint32_t pdi;
+	uint32_t pti;
+
+	pdi = ((page >> 10) & 0x03FF);
+	pti = (page & 0x03FF);
+
+	pde = PDE(pdi);
+	if ((*pde & PRESENT) == 0) {
+		goto invalid_page;
+	}
+
+	pte = PTE(pdi,pti);
+	if ((*pte & PRESENT) == 0) {
+		goto invalid_page;
+	}
+
+	*pte ^= PRESENT;
+	write_cr3(read_cr3());
+	kmem_free(*pte >> 12);
+	return;
+
+invalid_page:
+	panic("Attempt to free page %lu!\n",page);
+}
+
 static page_t create_entry(uint32_t addr, bit_u_t u, bit_r_t r, bit_p_t p) {
 	return ((addr & 0xFFFFF000) | u | r | p);
 }
