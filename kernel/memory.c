@@ -4,7 +4,6 @@
 	MIT License (MIT)
 */
 
-#include <integer.h>
 #include "memory.h"
 
 #define BITFIELD_COUNT (131072)
@@ -13,10 +12,10 @@
 static uint8_t frame_bitfield[BITFIELD_LENGTH];
 static uint32_t frame_num = 0;
 
-static inline int is_accessible(uint32_t frame);
-static inline int is_free(uint32_t frame);
-static inline void mark_inaccessible(uint32_t frame);
-static inline void mark_alloc(uint32_t frame);
+static int is_accessible(uint32_t frame);
+static int is_free(uint32_t frame);
+static void mark_inaccessible(uint32_t frame);
+static void mark_alloc(uint32_t frame);
 
 uint32_t kmem_alloc() {
 	uint32_t n;
@@ -48,21 +47,25 @@ void kmem_free(uint32_t frame) {
 }
 
 void kmem_init() {
+	uint32_t n;
 
+	for (n = 0; n < KERNEL_FRAMES; ++n) {
+		mark_inaccessible(n);
+	}
 }
 
-static inline int is_accessible(uint32_t frame) {
+static int is_accessible(uint32_t frame) {
 	return (!(frame_bitfield[frame / 4] & (1 << ((2 * (3 - (frame % 4))) + 1))));
 }
 
-static inline int is_free(uint32_t frame) {
+static int is_free(uint32_t frame) {
 	return (!(frame_bitfield[frame / 4] & (1 << (2 * (3 - (frame % 4))))));
 }
 
-static inline void mark_inaccessible(uint32_t frame) {
+static void mark_inaccessible(uint32_t frame) {
 	frame_bitfield[frame / 4] |= (1 << ((2 * (3 - (frame % 4))) + 1));
 }
 
-static inline void mark_alloc(uint32_t frame) {
+static void mark_alloc(uint32_t frame) {
 	(frame_bitfield[frame / 4] |= (1 << (2 * (3 - (frame % 4)))));
 }
