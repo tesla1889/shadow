@@ -189,7 +189,7 @@ static char escape(const char* str, const char** ptr, psize_t* size) {
 		}
 	}
 
-	*ptr = str;
+	*ptr = (--str);
 	*size = s;
 
 	return c;
