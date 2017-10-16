@@ -192,7 +192,7 @@ static char escape(const char* str, const char** ptr, psize_t* size) {
 static void kputc(char c) {
 	switch (c) {
 	case '\n':
-		while (vga_column) kputc(' ');
+		do { kputc(' '); } while (vga_column);
 		return;
 	case '\t':
 		do { kputc(' '); } while (vga_column % VGA_TAB);
