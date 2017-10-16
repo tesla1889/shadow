@@ -49,7 +49,7 @@ void kpage_handler(regs_t* regs) {
 		uint32_t pt_addr;
 		uint32_t n;
 
-		assert(pt_addr = (kmem_alloc() << 12));
+		assert(pt_addr = (kmem_allocp() << 12));
 		*pde = create_entry(pt_addr,SUPERVISOR,READ_WRITE,PRESENT);
 
 		for (n = 0; n < PAGE_ENTRIES; ++n) {
@@ -63,12 +63,12 @@ void kpage_handler(regs_t* regs) {
 	switch (regs->error & 7) {
 	case 0:
 	case 2:
-		*pte = ((kmem_alloc() << 12) | flags | PRESENT);
+		*pte = ((kmem_allocp() << 12) | flags | PRESENT);
 		break;
 	case 4:
 	case 6:
 		/* TODO: check if valid user address */
-		*pte = ((kmem_alloc() << 12) | flags | USER | PRESENT);
+		*pte = ((kmem_allocp() << 12) | flags | USER | PRESENT);
 		break;
 	default:
 		panic("Function address @%lx caused a protection fault! (Error code: %lu)\n",regs->eip,regs->error);
@@ -83,13 +83,13 @@ void kpage_init() {
 	uint32_t pt_addr;
 	uint32_t n;
 
-	assert(pd_addr = (kmem_alloc() << 12));
+	assert(pd_addr = (kmem_allock() << 12));
 	pd_ptr = (page_t*)pd_addr;
 
 	for (n = 0; n < (KERNEL_FRAMES / PAGE_ENTRIES); ++n) {
 		uint32_t e;
 
-		assert(pt_addr = (kmem_alloc() << 12));
+		assert(pt_addr = (kmem_allocp() << 12));
 		pt_ptr = (page_t*)pt_addr;
 
 		for (e = 0; e < PAGE_ENTRIES; ++n) {

@@ -4,6 +4,7 @@
 	MIT License (MIT)
 */
 
+#include "kprint.h"
 #include "panic.h"
 
 void kassert(uint32_t val, const char* str, const char* file, uint32_t line) {
@@ -13,6 +14,15 @@ void kassert(uint32_t val, const char* str, const char* file, uint32_t line) {
 }
 
 void kpanic(const char* file, uint32_t line, const char* fmt, ...) {
-	/* TODO: print panic message */
+	va_list args;
+
+	va_start(args,fmt);
+	kpanicv(file,line,fmt,args);
+}
+
+void kpanicv(const char* file, uint32_t line, const char* fmt, va_list args) {
+	kprint("\n[KERNEL PANIC] %s:%lu\n",file,line);
+	kprintv(fmt,args);
+
 	for (;;) {}
 }

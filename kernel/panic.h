@@ -8,9 +8,11 @@
 */
 
 #include <integer.h>
+#include <stdarg.h>
 
 void kassert(uint32_t val, const char* str, const char* file, uint32_t line);
 void kpanic(const char* file, uint32_t line, const char* fmt, ...);
+void kpanicv(const char* file, uint32_t line, const char* fmt, va_list args);
 
 #define assert(val) (kassert(val,(#val),__FILE__,__LINE__))
 #define panic(fmt,...) (kpanic(__FILE__,__LINE__,fmt,__VA_ARGS__))
