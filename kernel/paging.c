@@ -90,7 +90,7 @@ void kpage_init() {
 		uint32_t e;
 
 		assert(pt_addr = (kmem_alloc() << 12));
-		pd_ptr = (page_t*)pt_addr;
+		pt_ptr = (page_t*)pt_addr;
 
 		for (e = 0; e < PAGE_ENTRIES; ++n) {
 			pt_ptr[e] = create_entry((e << 12),SUPERVISOR,READ_WRITE,PRESENT);
