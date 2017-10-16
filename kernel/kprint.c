@@ -150,6 +150,12 @@ void vga_scroll() {
 	for (x = 0; x < VGA_WIDTH; ++x) {
 		vga_buffer[y + x] = (_vga_color | ' ');
 	}
+
+	if (vga_row) {
+		--vga_row;
+	} else {
+		vga_column = 0;
+	}
 }
 
 static char escape(const char* str, const char** ptr, psize_t* size) {
