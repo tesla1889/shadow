@@ -7,7 +7,7 @@
 	MIT License (MIT)
 */
 
-#include <integer>
+#include <integer.h>
 
 void* memset(void* ptr, int val, uint32_t num);
 char* strcat(char* dst, const char* src);

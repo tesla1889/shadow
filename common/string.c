@@ -10,7 +10,7 @@ void* memset(void* ptr, int val, uint32_t num) {
 	uint32_t n;
 
 	for (n = 0; n < num; ++n) {
-		((uint8_t*)ptr) = (uint8_t)val;
+		*((uint8_t*)ptr) = (uint8_t)val;
 	}
 
 	return ptr;

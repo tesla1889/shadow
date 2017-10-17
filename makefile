@@ -1,4 +1,4 @@
-.PHONY: all clean common kernel
+.PHONY: all clean common disk kernel
 
 all: kernel
 
@@ -9,5 +9,11 @@ clean:
 common:
 	make -C common
 
-kernel: common vga
+disk: kernel
+	sudo mount -o loop shadow.img disk
+	sudo cp kernel/kernel.bin disk
+	sleep 1s
+	sudo umount disk
+
+kernel: common
 	make -C kernel

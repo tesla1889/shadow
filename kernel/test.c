@@ -13,7 +13,7 @@ void test_memory(uint32_t allocs) {
 
 	for (i = 0; (i < allocs) && (i < 32); ++i) {
 		uint32_t* ptr = (uint32_t*)(kmem_allock() << 12);
-		assert(ptr);
+		assert(ptr != 0);
 
 		for (j = 0; j < 1024; ++j) {
 			ptr[j] = allocs;

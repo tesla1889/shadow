@@ -28,7 +28,7 @@ uint32_t kmem_allock() {
 		}
 	}
 
-	for (n = 0; n < frame_num; ++n) {
+	for (n = 0; n < kframe_num; ++n) {
 		if (is_accessible(n) && is_free(n)) {
 			goto kframe_found;
 		}
@@ -38,7 +38,7 @@ uint32_t kmem_allock() {
 
 kframe_found:
 	mark_alloc(n);
-	frame_num = ((n + 1) % KERNEL_FRAMES);
+	kframe_num = ((n + 1) % KERNEL_FRAMES);
 	return n;
 }
 
@@ -69,7 +69,11 @@ pframe_found:
 void kmem_free(uint32_t frame) {
 	if (is_accessible(frame)) {
 		frame_bitfield[frame / 4] &= ~((uint8_t)(1 << (2 * (3 - (frame % 4)))));
-		frame_num = frame;
+		if (frame < KERNEL_FRAMES) {
+			kframe_num = frame;
+		} else {
+			pframe_num = frame;
+		}
 	}
 }
 

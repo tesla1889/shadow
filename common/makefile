@@ -12,4 +12,4 @@ clean:
 	rm -fv $(OBJ)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -o $@ $<
+	$(CC) $(CFLAGS) -o $@ -c $<

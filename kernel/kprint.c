@@ -174,7 +174,7 @@ static void kputull(uint64_t u) {
 	uint64_t div;
 	int start = 0;
 
-	for (div = 10000000000000000000L; div; div /= 10) {
+	for (div = 10000000000000000000ULL; div; div /= 10) {
 		digit = (u / div);
 		if (digit || start) {
 			vga_putc((char)(digit + '0'));
