@@ -4,12 +4,12 @@
 	MIT License (MIT)
 */
 
-#include <vga.h>
 #include "gdt.h"
 #include "idt.h"
 #include "kprint.h"
 #include "memory.h"
 #include "paging.h"
+#include "vga.h"
 
 void kmain() {
 	vga_init();

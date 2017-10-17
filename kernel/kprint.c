@@ -5,8 +5,8 @@
 */
 
 #include <string.h>
-#include <vga.h>
 #include "kprint.h"
+#include "vga.h"
 
 typedef enum {
 	P_NORMAL,
