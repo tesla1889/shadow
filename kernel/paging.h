@@ -17,6 +17,6 @@ typedef uint32_t page_t;
 
 void kpage_free(uint32_t page);
 void kpage_handler(regs_t* regs);
-void kpage_init();
+void kpage_init(uint32_t kframes);
 
 #endif

@@ -1,8 +1,10 @@
 CSRC = $(wildcard ../common/*.c)
 COBJ = $(CSRC:.c=.o)
-SRC = $(wildcard *.c)
+SRC = $(wildcard *.c) $(wildcard *.asm) $(wildcard *.s)
 OBJ = $(SRC:.c=.o)
 
+AS = as
+ASFLAGS = --32
 CC = gcc
 CFLAGS = -g -arch i386 -ffreestanding -I../include -nostdinc -nostdlib -fno-builtin -nostartfiles -nodefaultlibs -fno-stack-protector -fleading-underscore -fno-asynchronous-unwind-tables
 LD = ld
@@ -20,3 +22,6 @@ kernel.bin: $(OBJ)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -o $@ $<
+
+%.o: %.s
+	$(AS) $(ASFLAGS) -o $@ $<

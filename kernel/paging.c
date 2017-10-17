@@ -76,7 +76,7 @@ void kpage_handler(regs_t* regs) {
 	}
 }
 
-void kpage_init() {
+void kpage_init(uint32_t kframes) {
 	page_t* pd_ptr;
 	page_t* pt_ptr;
 	uint32_t pd_addr;
@@ -86,7 +86,7 @@ void kpage_init() {
 	assert(pd_addr = (kmem_allock() << 12));
 	pd_ptr = (page_t*)pd_addr;
 
-	for (n = 0; n < (KERNEL_FRAMES / PAGE_ENTRIES); ++n) {
+	for (n = 0; n < (kframes / PAGE_ENTRIES); ++n) {
 		uint32_t e;
 
 		assert(pt_addr = (kmem_allocp() << 12));

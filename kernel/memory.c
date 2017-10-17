@@ -81,6 +81,10 @@ void kmem_init(uint32_t kframes) {
 	for (n = 0; n < kframes; ++n) {
 		mark_inaccessible(n);
 	}
+
+	for (n = 3840; n < 4096; ++n) {
+		mark_inaccessible(n);
+	}
 }
 
 static int is_accessible(uint32_t frame) {
